@@ -56,4 +56,8 @@ export class Light extends Device {
       this._currentBrightness--;
     }
   }
+  setNightMode() {
+    this._currentColorTemperature = 6500;
+    this._currentBrightness = 1;
+  }
 }
