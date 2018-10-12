@@ -4,8 +4,13 @@ export class Device {
     this._isEnabled = false;
   }
   get name() {
-    this._name = name;
+    return (this._name = name);
   }
+
+  get isEnabledStatus() {
+    return this._isEnabled;
+  }
+
   setDeviceOn() {
     if (!this._isEnabled) {
       this._isEnabled = true;

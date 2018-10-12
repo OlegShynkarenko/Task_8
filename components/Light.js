@@ -2,7 +2,6 @@ import { Device } from "./Device";
 
 export class Light extends Device {
   constructor(
-    type,
     name,
     currentColorTemperature = 3000,
     minColorTemperature = 2000,
@@ -12,7 +11,6 @@ export class Light extends Device {
     maxBrightness = 10
   ) {
     super(name);
-    this._type = type;
     this._name = name;
     this._currentColorTemperature = currentColorTemperature;
     this._minColorTemperature = minColorTemperature;

@@ -2,9 +2,8 @@ import { Device } from "./Device";
 
 export class AirConditioning extends Device {
   constructor(
-    type,
     name,
-    mode = ["COOL", "HEAT", "DRY", "FAN"],
+    mode = ["COOL", "HEAT", "DRY", "FAN"], // нужно вписать изменение режима
     currentMode = mode[0],
     currentTemperature = 20,
     minTemperature = 15,
@@ -14,7 +13,6 @@ export class AirConditioning extends Device {
     maxFanSpeed = 5
   ) {
     super(name);
-    this._type = type;
     this._name = name;
     this._mode = mode;
     this._currentMode = currentMode;
@@ -36,6 +34,11 @@ export class AirConditioning extends Device {
 
   get currentMode() {
     return this._currentMode;
+  }
+  setSource(source) {
+    if (this._mode.indexOf(source) !== -1) {
+      this._currentMode = source;
+    }
   }
 
   get currentTemperature() {

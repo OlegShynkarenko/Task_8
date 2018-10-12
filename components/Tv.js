@@ -2,7 +2,6 @@ import { Device } from "./Device";
 
 export class Tv extends Device {
   constructor(
-    type,
     name,
     sources = ["TV antenna", "HDMI", "USB", "PC"],
     currentSource = sources[0],
@@ -14,7 +13,6 @@ export class Tv extends Device {
     maxVolume = 50
   ) {
     super(name);
-    this._type = type;
     this._name = name;
     this._sources = sources;
     this._currentSource = currentSource;
