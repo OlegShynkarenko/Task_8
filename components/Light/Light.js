@@ -1,24 +1,31 @@
-import { Device } from "./Device";
+import { Device } from "../Device/Device";
 
 export class Light extends Device {
-  constructor(
-    name,
-    currentColorTemperature = 3000,
-    minColorTemperature = 2000,
-    maxColorTemperature = 6500,
-    currentBrightness = 5,
-    minBrightness = 1,
-    maxBrightness = 10
-  ) {
+  constructor(name, config) {
     super(name);
-    this._name = name;
-    this._currentColorTemperature = currentColorTemperature;
-    this._minColorTemperature = minColorTemperature;
-    this._maxColorTemperature = maxColorTemperature;
-    this._currentBrightness = currentBrightness;
-    this._minBrightness = minBrightness;
-    this._maxBrightness = maxBrightness;
+    const defaultConfig = {
+      currentColorTemperature: 3000,
+      minColorTemperature: 2000,
+      maxColorTemperature: 6500,
+      currentBrightness: 5,
+      minBrightness: 1,
+      maxBrightness: 10
+    };
+    this.config = Object.assign({}, defaultConfig, config);
   }
+
+  static getDeviceName() {
+    return "light";
+  }
+
+  static getHumanizedName() {
+    return "Light Device";
+  }
+
+  getConfig() {
+    return this.config;
+  }
+
   get type() {
     return this._type;
   }

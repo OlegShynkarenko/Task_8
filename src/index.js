@@ -1,22 +1,24 @@
-import { SmartHouse } from "../components/SmartHouse";
-import { Device } from "../components/Device";
-import { AirConditioning } from "../components/AirConditioning";
-import { Tv } from "../components/Tv";
-import { Light } from "../components/Light";
+import { SmartHouse } from "../components/Smart House/SmartHouse";
+import { Device } from "../components/Device/Device";
+import { AirConditioning } from "../components/Air Conditioning/AirConditioning";
+import { Tv } from "../components/Tv/Tv";
+import { Light } from "../components/Light/Light";
+import "./index.scss";
+import { RenderTV } from "../components/Tv/tv_view";
+import { UIManager } from "../components/UI Manager/UIManager";
 
 const house = new SmartHouse("my house", "NY, 5th AV", "Oleg Shynkarenko");
+house.registerDevice(Tv);
+house.registerDevice(Light);
+house.registerDevice(AirConditioning);
+
+const UI = new UIManager(house);
+UI.renderAvailableDevicesSelect();
+UI.deviceSelectionHandler();
+
 window.house = house;
-house.addNewDevice(new Tv("Samsung"));
-house.addNewDevice(new Tv("Samsung-2"));
-house.addNewDevice(new Tv("Samsung-3"));
-house.addNewDevice(new Tv("Samsung-4"));
-house.addNewDevice(new Tv("Samsung-5"));
-house.addNewDevice(new AirConditioning("Cooper and Hunter"));
-house.addNewDevice(new AirConditioning("Cooper and Hunter-2"));
-house.addNewDevice(new Light("Phillips"));
-house.addNewDevice(new Light("Phillips-1"));
-house.addNewDevice(new Light("Phillips-2"));
-house.addNewDevice(new Light("Phillips-3"));
-house.addNewDevice(new Light("Phillips-4"));
-house.addNewDevice(new Light("Phillips-5"));
-house.addNewDevice(new Light("Phillips-6"));
+/*const tv = new Tv('LG');
+const view = new RenderTV(tv, document.getElementById('root'));
+window.tv = tv;
+window.view = view;
+view.render();*/

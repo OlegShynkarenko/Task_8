@@ -1,30 +1,29 @@
-import { Device } from "./Device";
+import { Device } from "../Device/Device";
 
 export class Tv extends Device {
-  constructor(
-    name,
-    sources = ["TV antenna", "HDMI", "USB", "PC"],
-    currentSource = sources[0],
-    currentChannel = 1,
-    minChannelValue = 1,
-    maxChannelValue = 100,
-    currentVolume = 10,
-    minVolume = 0,
-    maxVolume = 50
-  ) {
+  constructor(name) {
     super(name);
     this._name = name;
-    this._sources = sources;
-    this._currentSource = currentSource;
-    this._currentChannel = currentChannel;
-    this._minChannelValue = minChannelValue;
-    this._maxChannelValue = maxChannelValue;
-    this._currentVolume = currentVolume;
-    this._minVolume = minVolume;
-    this._maxVolume = maxVolume;
+    this._sources = ["TV antenna", "HDMI", "USB", "PC"];
+    this._type = "Tv";
+    this._currentChannel = 1;
+    this._minChannelValue = 1;
+    this._maxChannelValue = 100;
+    this._currentVolume = 10;
+    this._minVolume = 0;
+    this._maxVolume = 50;
   }
-  get type() {
-    return this._type;
+
+  static getDeviceName() {
+    return "tv-set";
+  }
+
+  static getHumanizedName() {
+    return "TV-Set Device";
+  }
+
+  getHumanizedName() {
+    return "TV-Set";
   }
 
   get source() {
@@ -39,10 +38,10 @@ export class Tv extends Device {
       this._currentSource = source;
     }
   }
-  get currentChanell() {
+  get currentChannel() {
     return this._currentChannel;
   }
-  setChannel(channel) {
+  set currentChannel(channel) {
     if (channel >= this._minChannelValue && channel <= this._maxChannelValue) {
       this._currentChannel = channel;
     }
@@ -62,6 +61,13 @@ export class Tv extends Device {
   get currentVolume() {
     return this._currentVolume;
   }
+
+  set currentVolume(value) {
+    if (value > this._minVolume && value < this._maxVolume) {
+      this._currentVolume = value;
+    }
+  }
+
   increaseVolume() {
     if (this._currentVolume < this._maxVolume) {
       this._currentVolume++;

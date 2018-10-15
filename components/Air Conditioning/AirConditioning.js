@@ -1,35 +1,46 @@
-import { Device } from "./Device";
+import { Device } from "../Device/Device";
 
 export class AirConditioning extends Device {
-  constructor(
-    name,
-    mode = ["COOL", "HEAT", "DRY", "FAN"], // нужно вписать изменение режима
-    currentMode = mode[0],
-    currentTemperature = 20,
-    minTemperature = 15,
-    maxTemperature = 30,
-    currentFanSpeed = 3,
-    minFanSpeed = 1,
-    maxFanSpeed = 5
-  ) {
+  constructor(name, config) {
     super(name);
     this._name = name;
-    this._mode = mode;
-    this._currentMode = currentMode;
-    this._currentTemperature = currentTemperature;
-    this._minTemperature = minTemperature;
-    this._maxTemperature = maxTemperature;
-    this._currentFanSpeed = currentFanSpeed;
-    this._minFanSpeed = minFanSpeed;
-    this._maxFanSpeed = maxFanSpeed;
+    this._mode = ["COOL", "HEAT", "DRY", "FAN"];
+    const defaultConfig = {
+      currentTemperature: 20,
+      minTemperature: 15,
+      maxTemperature: 30,
+      currentFanSpeed: 3,
+      minFanSpeed: 1,
+      maxFanSpeed: 5
+    };
+    this.config = Object.assign({}, defaultConfig, config);
   }
 
-  get type() {
-    return this._type;
+  static getDeviceName() {
+    //
+    return "air_conditioning";
+  }
+
+  static getHumanizedName() {
+    return "Air Conditioning Device";
+  }
+
+  getConfig() {
+    return this.config;
+  }
+
+  set currentTemperature(temperature) {
+    if (temperature < 10) {
+      this._currentTemperature = 10;
+
+      return;
+    }
+
+    this._currentTemperature = temperature;
   }
 
   get fanSpeed() {
-    return this._fanSpeed;
+    return this._currentFanSpeed;
   }
 
   get currentMode() {
