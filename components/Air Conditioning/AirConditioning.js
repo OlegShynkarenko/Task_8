@@ -1,7 +1,7 @@
 import { Device } from "../Device/Device";
 
 export class AirConditioning extends Device {
-  constructor(name, config) {
+  constructor(name) {
     super(name);
     this._name = name;
     this._mode = ["COOL", "HEAT", "DRY", "FAN"];
@@ -14,7 +14,6 @@ export class AirConditioning extends Device {
   }
 
   static getDeviceName() {
-    //
     return "air_conditioning";
   }
 

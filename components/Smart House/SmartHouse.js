@@ -43,7 +43,9 @@ export class SmartHouse {
     }
   }
   deleteDeviceByName(name) {
-    let confirmQuestion = confirm('Are you shure that you want to delete this device?');
+    let confirmQuestion = confirm(
+      "Are you sure that you want to delete this device?"
+    );
     if (this._devices.has(name) && confirmQuestion === true) {
       this._devices.delete(name);
     } else {
