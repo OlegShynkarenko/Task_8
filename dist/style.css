@@ -61,6 +61,11 @@
   opacity: 1;
 }
 
+.delete_device-btn {
+  width: 14.5rem;
+  background: red;
+}
+
 .tv {
   margin-top: 5rem;
   border: 2px solid black;
@@ -80,6 +85,28 @@
   background: green;
 }
 .tv__controls-power-off-btn {
+  background: red;
+}
+
+.ac {
+  margin-top: 5rem;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 1.5rem;
+  width: 50rem;
+  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.ac__controls {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.ac__controls-power-on-btn {
+  background: green;
+}
+.ac__controls-power-off-btn {
   background: red;
 }
 

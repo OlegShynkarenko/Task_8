@@ -2,8 +2,8 @@
   var t = {};
   function n(r) {
     if (t[r]) return t[r].exports;
-    var s = (t[r] = { i: r, l: !1, exports: {} });
-    return e[r].call(s.exports, s, s.exports, n), (s.l = !0), s.exports;
+    var i = (t[r] = { i: r, l: !1, exports: {} });
+    return e[r].call(i.exports, i, i.exports, n), (i.l = !0), i.exports;
   }
   (n.m = e),
     (n.c = t),
@@ -25,13 +25,13 @@
         Object.defineProperty(r, "default", { enumerable: !0, value: e }),
         2 & t && "string" != typeof e)
       )
-        for (var s in e)
+        for (var i in e)
           n.d(
             r,
-            s,
+            i,
             function(t) {
               return e[t];
-            }.bind(null, s)
+            }.bind(null, i)
           );
       return r;
     }),
@@ -70,66 +70,6 @@
       }
       setDeviceOff() {
         this._isEnabled && (this._isEnabled = !1);
-      }
-    }
-    class s extends r {
-      constructor(e, t) {
-        super(e),
-          (this._name = e),
-          (this._mode = ["COOL", "HEAT", "DRY", "FAN"]);
-        this.config = Object.assign(
-          {},
-          {
-            currentTemperature: 20,
-            minTemperature: 15,
-            maxTemperature: 30,
-            currentFanSpeed: 3,
-            minFanSpeed: 1,
-            maxFanSpeed: 5
-          },
-          t
-        );
-      }
-      static getDeviceName() {
-        return "air_conditioning";
-      }
-      static getHumanizedName() {
-        return "Air Conditioning Device";
-      }
-      getConfig() {
-        return this.config;
-      }
-      set currentTemperature(e) {
-        this._currentTemperature = e < 10 ? 10 : e;
-      }
-      get fanSpeed() {
-        return this._currentFanSpeed;
-      }
-      get currentMode() {
-        return this._currentMode;
-      }
-      setSource(e) {
-        -1 !== this._mode.indexOf(e) && (this._currentMode = e);
-      }
-      get currentTemperature() {
-        return this._currentTemperature;
-      }
-      increaseTemperature() {
-        this._currentTemperature < this._maxTemperature &&
-          this._currentTemperature++;
-      }
-      decreaseTemperature() {
-        this._currentTemperature > this._minTemperature &&
-          this._currentTemperature--;
-      }
-      get currentFanSpeed() {
-        return this._currentFanSpeed;
-      }
-      increaseFanSpeed() {
-        this._currentFanSpeed < this._maxFanSpeed && this._currentFanSpeed++;
-      }
-      decreaseTemperature() {
-        this._currentFanSpeed > this._minFanSpeed && this._currentFanSpeed--;
       }
     }
     class i extends r {
@@ -193,33 +133,130 @@
         this._currentVolume > this._minVolume && this._currentVolume--;
       }
     }
+    class s {
+      constructor(e, t, n) {
+        (this._tv = e), (this._rootElement = t), (this.SmartHouse = n);
+      }
+      render() {
+        const e = document.createElement("div");
+        e.className = "tv";
+        const t = document.createElement("div");
+        t.className = "tv__controls";
+        const n = document.createElement("div");
+        n.className = "tv__controls-power";
+        const r = document.createElement("div");
+        r.className = "tv__controls-volume";
+        const i = document.createElement("div");
+        i.className = "tv__controls-channel";
+        let s = document.createElement("div");
+        s.innerText = `Device name: ${
+          this._tv._name
+        } - ${this._tv.getHumanizedName()}`;
+        let a = document.createElement("div");
+        a.className = "stateField";
+        let c = () => {
+          a.innerText = `Device status: ${
+            this._tv.isEnabledStatus ? "On" : "Off"
+          }`;
+        };
+        const o = document.createElement("button");
+        (o.className = "tv__controls-power-on-btn button"),
+          (o.type = "button"),
+          (o.innerHTML = "ON"),
+          o.addEventListener("click", () => {
+            this._tv.setDeviceOn(), c();
+          });
+        const u = document.createElement("button");
+        (u.className = "tv__controls-power-off-btn button"),
+          (u.type = "button"),
+          (u.innerHTML = "OFF"),
+          u.addEventListener("click", () => {
+            this._tv.setDeviceOff(), c();
+          });
+        let d = document.createElement("div");
+        const l = document.createElement("button");
+        (l.className = "decrease_volume button"),
+          (l.type = "button"),
+          (l.innerHTML = " vol-"),
+          l.addEventListener("click", () => {
+            !0 === this._tv.isEnabledStatus &&
+              ((this._tv.currentVolume = this._tv.decreaseVolume()),
+              (d.innerText = `Volume: ${this._tv.currentVolume}`));
+          });
+        const m = document.createElement("button");
+        (m.className = "decrease_volume button"),
+          (m.type = "button"),
+          (m.innerHTML = "vol+"),
+          m.addEventListener("click", () => {
+            !0 === this._tv.isEnabledStatus &&
+              ((this._tv.currentVolume = this._tv.increaseVolume()),
+              (d.innerText = `Volume: ${this._tv.currentVolume}`));
+          });
+        let h = document.createElement("div");
+        const _ = document.createElement("button");
+        (_.className = "decrease_channel button"),
+          (_.type = "button"),
+          (_.innerHTML = "ch-"),
+          _.addEventListener("click", () => {
+            !0 === this._tv.isEnabledStatus &&
+              ((this._tv.currentChannel = this._tv.decreaseChannel()),
+              (h.innerText = `Channel: ${this._tv.currentChannel}`));
+          });
+        const p = document.createElement("button");
+        (p.className = "decrease_channel button"),
+          (p.type = "button"),
+          (p.innerHTML = "ch+"),
+          p.addEventListener("click", () => {
+            !0 === this._tv.isEnabledStatus &&
+              ((this._tv.currentChannel = this._tv.increaseChannel()),
+              (h.innerText = `Channel: ${this._tv.currentChannel}`));
+          });
+        const v = document.createElement("button");
+        (v.className = "delete_device-btn button"),
+          (v.innerHTML = "Delete Device"),
+          v.addEventListener("click", () => {
+            this.SmartHouse.deleteDeviceByName(this._tv._name), e.remove();
+          }),
+          c(),
+          (() => {
+            d.innerText = `Volume: ${this._tv.currentVolume}`;
+          })(),
+          (() => {
+            h.innerText = `Channel: ${this._tv.currentChannel}`;
+          })(),
+          e.appendChild(s),
+          n.appendChild(a),
+          n.appendChild(o),
+          n.appendChild(u),
+          r.appendChild(d),
+          r.appendChild(l),
+          r.appendChild(m),
+          i.appendChild(h),
+          i.appendChild(_),
+          i.appendChild(p),
+          t.appendChild(n),
+          t.appendChild(r),
+          t.appendChild(i),
+          e.appendChild(t),
+          e.appendChild(v),
+          this._rootElement.appendChild(e);
+      }
+    }
     class a extends r {
-      constructor(e, t) {
-        super(e);
-        this.config = Object.assign(
-          {},
-          {
-            currentColorTemperature: 3e3,
-            minColorTemperature: 2e3,
-            maxColorTemperature: 6500,
-            currentBrightness: 5,
-            minBrightness: 1,
-            maxBrightness: 10
-          },
-          t
-        );
+      constructor(e) {
+        super(e),
+          (this._currentColorTemperature = 3e3),
+          (this._minColorTemperature = 2e3),
+          (this._maxColorTemperature = 6500),
+          (this._currentBrightness = 5),
+          (this._minBrightness = 1),
+          (this._maxBrightness = 10);
       }
       static getDeviceName() {
         return "light";
       }
       static getHumanizedName() {
         return "Light Device";
-      }
-      getConfig() {
-        return this.config;
-      }
-      get type() {
-        return this._type;
       }
       get currentColorTemperature() {
         return this._currentColorTemperature;
@@ -253,116 +290,190 @@
         (this._currentColorTemperature = 6500), (this._currentBrightness = 1);
       }
     }
-    n(1);
-    class c {
+    class c extends r {
+      constructor(e, t) {
+        super(e),
+          (this._name = e),
+          (this._mode = ["COOL", "HEAT", "DRY", "FAN"]),
+          (this._currentTemperature = 20),
+          (this._minTemperature = 15),
+          (this._maxTemperature = 30),
+          (this._currentFanSpeed = 3),
+          (this._minFanSpeed = 1),
+          (this._maxFanSpeed = 5);
+      }
+      static getDeviceName() {
+        return "air_conditioning";
+      }
+      static getHumanizedName() {
+        return "Air Conditioning Device";
+      }
+      getHumanizedName() {
+        return "Air Conditioning";
+      }
+      get fanSpeed() {
+        return this._currentFanSpeed;
+      }
+      get currentMode() {
+        return this._currentMode;
+      }
+      setSource(e) {
+        -1 !== this._mode.indexOf(e) && (this._currentMode = e);
+      }
+      get currentTemperature() {
+        return this._currentTemperature;
+      }
+      set currentTemperature(e) {
+        e > this._minTemperature &&
+          e < this._maxTemperature &&
+          (this._currentTemperature = e);
+      }
+      increaseTemperature() {
+        this._currentTemperature < this._maxTemperature &&
+          this._currentTemperature++;
+      }
+      decreaseTemperature() {
+        this._currentTemperature > this._minTemperature &&
+          this._currentTemperature--;
+      }
+      get currentFanSpeed() {
+        return this._currentFanSpeed;
+      }
+      set currentFanSpeed(e) {
+        e > this._minFanSpeed &&
+          e < this._maxFanSpeed &&
+          (this._currentFanSpeed = e);
+      }
+      increaseFanSpeed() {
+        this._currentFanSpeed < this._maxFanSpeed && this._currentFanSpeed++;
+      }
+      decreaseFanSpeed() {
+        this._currentFanSpeed > this._minFanSpeed && this._currentFanSpeed--;
+      }
+    }
+    class o {
       constructor(e, t, n) {
-        (this._tv = e), (this._rootElement = t), (this.SmartHouse = n);
+        (this._airConditioning = e),
+          (this._rootElement = t),
+          (this.smartHouse = n);
       }
       render() {
         const e = document.createElement("div");
-        e.className = "tv";
+        e.className = "ac";
         const t = document.createElement("div");
-        t.className = "tv__controls";
+        t.className = "ac__controls";
         const n = document.createElement("div");
-        n.className = "tv__controls-power";
+        n.className = "ac__controls-power";
         const r = document.createElement("div");
-        r.className = "tv__controls-volume";
-        const s = document.createElement("div");
-        s.className = "tv__controls-channel";
-        let i = document.createElement("div");
-        i.innerText = `Device name: ${
-          this._tv._name
-        } - ${this._tv.getHumanizedName()}`;
+        r.className = "ac__controls-volume";
+        const i = document.createElement("div");
+        i.className = "ac__controls-channel";
+        let s = document.createElement("div");
+        s.innerText = `Device name: ${
+          this._airConditioning._name
+        } - ${this._airConditioning.getHumanizedName()}`;
         let a = document.createElement("div");
         a.className = "stateField";
         let c = () => {
           a.innerText = `Device status: ${
-            this._tv.isEnabledStatus ? "On" : "Off"
+            this._airConditioning.isEnabledStatus ? "On" : "Off"
           }`;
         };
-        const u = document.createElement("button");
-        (u.className = "tv__controls-power-on-btn button"),
-          (u.type = "button"),
-          (u.innerHTML = "ON"),
-          u.addEventListener("click", () => {
-            this._tv.setDeviceOn(), c();
-          });
         const o = document.createElement("button");
-        (o.className = "tv__controls-power-off-btn button"),
+        (o.className = "ac__controls-power-on-btn button"),
           (o.type = "button"),
-          (o.innerHTML = "OFF"),
+          (o.innerHTML = "ON"),
           o.addEventListener("click", () => {
-            this._tv.setDeviceOff(), c();
+            this._airConditioning.setDeviceOn(), c();
           });
-        let l = document.createElement("div");
-        const d = document.createElement("button");
-        (d.className = "decrease_volume button"),
-          (d.type = "button"),
-          (d.innerHTML = " vol-"),
-          d.addEventListener("click", () => {
-            !0 === this._tv.isEnabledStatus &&
-              ((this._tv.currentVolume = this._tv.decreaseVolume()),
-              (l.innerText = `Volume: ${this._tv.currentVolume}`));
+        const u = document.createElement("button");
+        (u.className = "ac__controls-power-off-btn button"),
+          (u.type = "button"),
+          (u.innerHTML = "OFF"),
+          u.addEventListener("click", () => {
+            this._airConditioning.setDeviceOff(), c();
           });
-        const h = document.createElement("button");
-        (h.className = "decrease_volume button"),
-          (h.type = "button"),
-          (h.innerHTML = "vol+"),
-          h.addEventListener("click", () => {
-            !0 === this._tv.isEnabledStatus &&
-              ((this._tv.currentVolume = this._tv.increaseVolume()),
-              (l.innerText = `Volume: ${this._tv.currentVolume}`));
+        let d = document.createElement("div");
+        const l = document.createElement("button");
+        (l.className = "decrease_temp-btn button"),
+          (l.type = "button"),
+          (l.innerHTML = "temp-"),
+          l.addEventListener("click", () => {
+            !0 === this._airConditioning.isEnabledStatus &&
+              ((this._airConditioning.currentTemperature = this._airConditioning.decreaseTemperature()),
+              (d.innerText = `Temperature: ${
+                this._airConditioning.currentTemperature
+              }`));
           });
-        let m = document.createElement("div");
+        const m = document.createElement("button");
+        (m.className = "decrease_volume button"),
+          (m.type = "button"),
+          (m.innerHTML = "temp+"),
+          m.addEventListener("click", () => {
+            !0 === this._airConditioning.isEnabledStatus &&
+              ((this._airConditioning.currentTemperature = this._airConditioning.increaseTemperature()),
+              (d.innerText = `Temperature: ${
+                this._airConditioning.currentTemperature
+              }`));
+          });
+        let h = document.createElement("div");
         const _ = document.createElement("button");
         (_.className = "decrease_channel button"),
           (_.type = "button"),
           (_.innerHTML = "ch-"),
           _.addEventListener("click", () => {
-            !0 === this._tv.isEnabledStatus &&
-              ((this._tv.currentChannel = this._tv.decreaseChannel()),
-              (m.innerText = `Channel: ${this._tv.currentChannel}`));
+            !0 === this._airConditioning.isEnabledStatus &&
+              ((this._airConditioning.currentFanSpeed = this._airConditioning.decreaseFanSpeed()),
+              (h.innerText = `Fan Speed: ${
+                this._airConditioning.currentFanSpeed
+              }`));
           });
         const p = document.createElement("button");
         (p.className = "decrease_channel button"),
           (p.type = "button"),
           (p.innerHTML = "ch+"),
           p.addEventListener("click", () => {
-            !0 === this._tv.isEnabledStatus &&
-              ((this._tv.currentChannel = this._tv.increaseChannel()),
-              (m.innerText = `Channel: ${this._tv.currentChannel}`));
+            !0 === this._airConditioning.isEnabledStatus &&
+              ((this._airConditioning.currentFanSpeed = this._airConditioning.increaseFanSpeed()),
+              (h.innerText = `Fan Speed: ${
+                this._airConditioning.currentFanSpeed
+              }`));
           });
         const v = document.createElement("button");
-        (v.className = "delete_device"),
+        (v.className = "delete_device-btn button"),
           (v.innerHTML = "Delete Device"),
           v.addEventListener("click", () => {
-            this.SmartHouse.deleteDeviceByName(this._tv._name);
+            this.smartHouse.deleteDeviceByName(this._airConditioning._name),
+              e.remove();
           }),
           c(),
           (() => {
-            l.innerText = `Volume: ${this._tv.currentVolume}`;
+            d.innerText = `Temperature: ${
+              this._airConditioning.currentTemperature
+            }`;
           })(),
           (() => {
-            m.innerText = `Channel: ${this._tv.currentChannel}`;
+            h.innerText = `Fan Speed: ${this._airConditioning.currentFanSpeed}`;
           })(),
-          e.appendChild(i),
+          e.appendChild(s),
           n.appendChild(a),
-          n.appendChild(u),
           n.appendChild(o),
-          r.appendChild(l),
+          n.appendChild(u),
           r.appendChild(d),
-          r.appendChild(h),
-          s.appendChild(m),
-          s.appendChild(_),
-          s.appendChild(p),
+          r.appendChild(l),
+          r.appendChild(m),
+          i.appendChild(h),
+          i.appendChild(_),
+          i.appendChild(p),
           t.appendChild(n),
           t.appendChild(r),
-          t.appendChild(s),
+          t.appendChild(i),
           e.appendChild(t),
           e.appendChild(v),
           this._rootElement.appendChild(e);
       }
     }
+    n(1);
     const u = new class {
       constructor(e, t, n) {
         (this._name = e),
@@ -390,13 +501,15 @@
       addNewDevice(e) {
         if (!1 !== this._devices.has(e._name) || !e._name)
           throw new Error(
-            "This device has been already added or you didn't enter device name."
+            alert(
+              "This device has been already added or you didn't enter device name"
+            )
           );
         this._devices.set(e._name, e);
       }
       deleteDeviceByName(e) {
         if (!this._devices.has(e))
-          throw new Error("There is no such device in the list");
+          throw new Error(alert("There is no such device in the list"));
         this._devices.delete(e);
       }
       deleteAllDevices() {
@@ -409,63 +522,71 @@
         return this._devices.get(e);
       }
     }("my house", "NY, 5th AV", "Oleg Shynkarenko");
-    u.registerDevice(i), u.registerDevice(a), u.registerDevice(s);
-    const o = new class {
-      constructor(e) {
-        (this.SmartHouse = e), (this.root = document.getElementById("root"));
-      }
-      renderAvailableDevicesSelect() {
-        const e = document.createElement("select");
-        e.setAttribute("id", "select"), (e.className = "select");
-        const t = this.SmartHouse._register,
-          n = document.createElement("option");
-        (n.text = "Choose your device"), e.add(n, null);
-        for (const n of t) {
-          const [t, r] = n,
-            s = document.createElement("option");
-          (s.value = r.getDeviceName()),
-            (s.text = r.getHumanizedName()),
-            e.add(s, null);
+    u.registerDevice(i),
+      u.registerDevice(a),
+      u.registerDevice(c),
+      new class {
+        constructor(e) {
+          (this.smartHouse = e), (this.root = document.getElementById("root"));
         }
-        this.root.appendChild(e);
-      }
-      deviceSelectionHandler() {
-        const e = document.createElement("input");
-        (e.type = "text"), (e.className = "deviceNameInput");
-        const t = document.createElement("button");
-        (t.innerHTML = "Add Device"),
-          (t.className = "addDeviceBtn"),
-          select.addEventListener("change", () => {
-            const n = document.getElementById("select").options.selectedIndex;
-            (e.value = ""),
-              this.root.appendChild(e),
-              this.root.appendChild(t),
-              0 === n && (e.remove(), t.remove());
-          }),
-          t.addEventListener("click", () => {
-            const t = document.getElementById("select").options.selectedIndex,
-              n = document.getElementById("select").options[t].value,
-              r = e.value;
-            switch (n) {
-              case "tv-set":
-                const e = new i(r);
-                this.SmartHouse.addNewDevice(e),
-                  new c(e, document.getElementById("root")).render();
-                break;
-              case "light":
-                const t = new a(r);
-                this.SmartHouse.addNewDevice(t);
-                break;
-              case "air_conditioning":
-                const u = new s(r);
-                this.SmartHouse.addNewDevice(u);
-            }
-          });
-      }
-    }(u);
-    o.renderAvailableDevicesSelect(),
-      o.deviceSelectionHandler(),
-      (window.house = u);
+        render() {
+          const e = document.createElement("div"),
+            t = document.createElement("select");
+          t.setAttribute("id", "select"), (t.className = "select");
+          const n = this.smartHouse._register,
+            r = document.createElement("option");
+          (r.text = "Choose your device"), t.add(r, null);
+          for (const e of n) {
+            const [n, r] = e,
+              i = document.createElement("option");
+            (i.value = r.getDeviceName()),
+              (i.text = r.getHumanizedName()),
+              t.add(i, null);
+          }
+          const u = document.createElement("input");
+          (u.type = "text"), (u.className = "deviceNameInput");
+          const d = document.createElement("button");
+          (d.innerHTML = "Add Device"),
+            (d.className = "addDeviceBtn"),
+            t.addEventListener("change", () => {
+              const t = document.getElementById("select").options.selectedIndex;
+              (u.value = ""),
+                e.appendChild(u),
+                e.appendChild(d),
+                0 === t && (u.remove(), d.remove());
+            }),
+            d.addEventListener("click", () => {
+              const e = document.getElementById("select").options.selectedIndex,
+                t = document.getElementById("select").options[e].value,
+                n = u.value;
+              switch (((u.value = ""), t)) {
+                case "tv-set":
+                  const e = new i(n);
+                  this.smartHouse.addNewDevice(e),
+                    new s(
+                      e,
+                      document.getElementById("root"),
+                      this.smartHouse
+                    ).render();
+                  break;
+                case "light":
+                  const r = new a(n);
+                  this.smartHouse.addNewDevice(r);
+                  break;
+                case "air_conditioning":
+                  const d = new c(n);
+                  this.smartHouse.addNewDevice(d),
+                    new o(
+                      d,
+                      document.getElementById("root"),
+                      this.smartHouse
+                    ).render();
+              }
+            }),
+            e.appendChild(t),
+            this.root.appendChild(e);
+        }
+      }(u).render();
   },
   function(e, t) {}
 ]);
