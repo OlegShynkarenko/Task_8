@@ -1,3 +1,7 @@
+import { RenderTV, Tv } from "../Tv/Tv";
+import { Light } from "../Light/Light";
+import { AirConditioning, RenderAC } from "../Air Conditioning/AirConditioning";
+
 export class SmartHouse {
   constructor(name, address, owner) {
     this._name = name;
@@ -32,7 +36,9 @@ export class SmartHouse {
       this._devices.set(device._name, device);
     } else {
       throw new Error(
-        `This device has been already added or you didn't enter device name.`
+        alert(
+          `This device has been already added or you didn't enter device name`
+        )
       );
     }
   }
@@ -40,7 +46,7 @@ export class SmartHouse {
     if (this._devices.has(name)) {
       this._devices.delete(name);
     } else {
-      throw new Error(`There is no such device in the list`);
+      throw new Error(alert(`There is no such device in the list`));
     }
   }
   deleteAllDevices() {
@@ -51,5 +57,95 @@ export class SmartHouse {
   }
   showDeviceByName(name) {
     return this._devices.get(name);
+  }
+}
+
+export class SmartHouseRender {
+  constructor(smartHouse) {
+    this.smartHouse = smartHouse;
+    this.root = document.getElementById("root");
+  }
+
+  render() {
+    const registerDevice = document.createElement("div");
+
+    const select = document.createElement("select");
+    select.setAttribute("id", "select");
+    select.className = "select";
+    const devices = this.smartHouse._register;
+    const defaultOption = document.createElement("option");
+    defaultOption.text = "Choose your device";
+    select.add(defaultOption, null);
+
+    for (const device of devices) {
+      const [name, Device] = device;
+      const option = document.createElement("option");
+
+      option.value = Device.getDeviceName();
+      option.text = Device.getHumanizedName();
+      select.add(option, null);
+    }
+
+    const inputField = document.createElement("input");
+    inputField.type = "text";
+    inputField.className = "deviceNameInput";
+    const buttonAddDevice = document.createElement("button");
+    buttonAddDevice.innerHTML = "Add Device";
+    buttonAddDevice.className = "addDeviceBtn";
+
+    select.addEventListener("change", () => {
+      const selectIndex = document.getElementById("select").options
+        .selectedIndex;
+      inputField.value = "";
+      registerDevice.appendChild(inputField);
+      registerDevice.appendChild(buttonAddDevice);
+
+      if (selectIndex === 0) {
+        inputField.remove();
+        buttonAddDevice.remove();
+      }
+    });
+
+    buttonAddDevice.addEventListener("click", () => {
+      const selectIndex = document.getElementById("select").options
+        .selectedIndex;
+      const currentOption = document.getElementById("select").options[
+        selectIndex
+      ].value;
+      const deviceName = inputField.value;
+      inputField.value = "";
+
+      switch (currentOption) {
+        case "tv-set":
+          const newTV = new Tv(deviceName);
+          this.smartHouse.addNewDevice(newTV);
+          const viewTV = new RenderTV(
+            newTV,
+            document.getElementById("root"),
+            this.smartHouse
+          );
+          viewTV.render();
+          break;
+
+        case "light":
+          const newLight = new Light(deviceName);
+          this.smartHouse.addNewDevice(newLight);
+          break;
+
+        case "air_conditioning":
+          const newAirConditioning = new AirConditioning(deviceName);
+          this.smartHouse.addNewDevice(newAirConditioning);
+          const viewAC = new RenderAC(
+            newAirConditioning,
+            document.getElementById("root"),
+            this.smartHouse
+          );
+          viewAC.render();
+          break;
+      }
+    });
+
+    registerDevice.appendChild(select);
+    this.root.appendChild(registerDevice);
   }
 }

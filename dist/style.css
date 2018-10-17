@@ -1,0 +1,86 @@
+.page {
+  font-size: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.root {
+  padding: 2rem;
+  border: 2px solid deepskyblue;
+  border-radius: 1rem;
+  margin: 0 auto;
+  width: 100rem;
+}
+
+.button {
+  width: 7rem;
+  height: 4rem;
+  font-size: 2rem;
+  border: none;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  margin-top: 1rem;
+  outline: none;
+  background: deepskyblue;
+  color: #fff;
+}
+.button:hover {
+  opacity: 0.5;
+}
+.button:active {
+  opacity: 1;
+}
+
+.select {
+  display: block;
+  width: 40rem;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.deviceNameInput {
+  display: block;
+  width: 39.6rem;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.addDeviceBtn {
+  display: block;
+  width: 40rem;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 5px;
+  background: deepskyblue;
+  padding: 0.5rem 0 0.5rem 0;
+}
+.addDeviceBtn:hover {
+  opacity: 0.5;
+}
+.addDeviceBtn:active {
+  opacity: 1;
+}
+
+.tv {
+  margin-top: 5rem;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 1.5rem;
+  width: 50rem;
+  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.tv__controls {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.tv__controls-power-on-btn {
+  background: green;
+}
+.tv__controls-power-off-btn {
+  background: red;
+}
+
+/*# sourceMappingURL=style.css.map*/
