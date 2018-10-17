@@ -91,6 +91,7 @@ export class SmartHouseRender {
 
     const inputField = document.createElement("input");
     inputField.type = "text";
+    inputField.placeholder = "Enter device name";
     inputField.className = "deviceNameInput";
     const buttonAddDevice = document.createElement("button");
     buttonAddDevice.innerHTML = "Add Device";
