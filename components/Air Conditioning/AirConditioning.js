@@ -1,7 +1,7 @@
 import { Device } from "../Device/Device";
 
 export class AirConditioning extends Device {
-  constructor(name, config) {
+  constructor(name) {
     super(name);
     this._name = name;
     this._mode = ["COOL", "HEAT", "DRY", "FAN"];
@@ -14,7 +14,6 @@ export class AirConditioning extends Device {
   }
 
   static getDeviceName() {
-    //
     return "air_conditioning";
   }
 
@@ -139,7 +138,7 @@ export class RenderAC {
     });
 
     let currentTemperature = document.createElement("div");
-    let showcurrentTemperature = () => {
+    let showCurrentTemperature = () => {
       currentTemperature.innerText = `Temperature: ${
         this._airConditioning.currentTemperature
       }`;
@@ -172,7 +171,7 @@ export class RenderAC {
     });
 
     let currentFanSpeed = document.createElement("div");
-    let showcurrentFanSpeed = () => {
+    let showCurrentFanSpeed = () => {
       currentFanSpeed.innerText = `Fan Speed: ${
         this._airConditioning.currentFanSpeed
       }`;
@@ -181,7 +180,7 @@ export class RenderAC {
     const decreaseFanSpeed = document.createElement("button");
     decreaseFanSpeed.className = "decrease_channel button";
     decreaseFanSpeed.type = "button";
-    decreaseFanSpeed.innerHTML = "ch-";
+    decreaseFanSpeed.innerHTML = "sp-";
     decreaseFanSpeed.addEventListener("click", () => {
       if (this._airConditioning.isEnabledStatus === true) {
         this._airConditioning.currentFanSpeed = this._airConditioning.decreaseFanSpeed();
@@ -194,7 +193,7 @@ export class RenderAC {
     const increaseFanSpeed = document.createElement("button");
     increaseFanSpeed.className = "decrease_channel button";
     increaseFanSpeed.type = "button";
-    increaseFanSpeed.innerHTML = "ch+";
+    increaseFanSpeed.innerHTML = "sp+";
     increaseFanSpeed.addEventListener("click", () => {
       if (this._airConditioning.isEnabledStatus === true) {
         this._airConditioning.currentFanSpeed = this._airConditioning.increaseFanSpeed();
@@ -205,18 +204,16 @@ export class RenderAC {
     });
 
     const deleteDeviceButton = document.createElement("button");
-    deleteDeviceButton.className = "delete_device";
+    deleteDeviceButton.className = "delete_device-btn button";
     deleteDeviceButton.innerHTML = "Delete Device";
     deleteDeviceButton.addEventListener("click", () => {
       this.smartHouse.deleteDeviceByName(this._airConditioning._name);
-      /*const root = document.getElementById('root');
-      const targetElem = document.querySelector('.ac');
-      root.removeChild(targetElem);*/
+      airCondContainer.remove();
     });
 
     switchState();
-    showcurrentTemperature();
-    showcurrentFanSpeed();
+    showCurrentTemperature();
+    showCurrentFanSpeed();
     airCondContainer.appendChild(deviceName);
 
     powerControls.appendChild(state);
@@ -236,7 +233,7 @@ export class RenderAC {
     airCondControlsContainer.appendChild(acFanControls);
 
     airCondContainer.appendChild(airCondControlsContainer);
-    //airCondContainer.appendChild(deleteDeviceButton);
+    airCondContainer.appendChild(deleteDeviceButton);
 
     this._rootElement.appendChild(airCondContainer);
   }

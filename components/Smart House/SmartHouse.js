@@ -43,10 +43,13 @@ export class SmartHouse {
     }
   }
   deleteDeviceByName(name) {
-    if (this._devices.has(name)) {
+    let confirmQuestion = confirm(
+      "Are you sure that you want to delete this device?"
+    );
+    if (this._devices.has(name) && confirmQuestion === true) {
       this._devices.delete(name);
     } else {
-      throw new Error(alert(`There is no such device in the list`));
+      throw new Error(`There is no such device in the list`);
     }
   }
   deleteAllDevices() {
@@ -88,6 +91,7 @@ export class SmartHouseRender {
 
     const inputField = document.createElement("input");
     inputField.type = "text";
+    inputField.placeholder = "Enter device name";
     inputField.className = "deviceNameInput";
     const buttonAddDevice = document.createElement("button");
     buttonAddDevice.innerHTML = "Add Device";
