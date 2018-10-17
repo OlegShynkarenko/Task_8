@@ -181,7 +181,7 @@ export class RenderAC {
     const decreaseFanSpeed = document.createElement("button");
     decreaseFanSpeed.className = "decrease_channel button";
     decreaseFanSpeed.type = "button";
-    decreaseFanSpeed.innerHTML = "ch-";
+    decreaseFanSpeed.innerHTML = "sp-";
     decreaseFanSpeed.addEventListener("click", () => {
       if (this._airConditioning.isEnabledStatus === true) {
         this._airConditioning.currentFanSpeed = this._airConditioning.decreaseFanSpeed();
@@ -194,7 +194,7 @@ export class RenderAC {
     const increaseFanSpeed = document.createElement("button");
     increaseFanSpeed.className = "decrease_channel button";
     increaseFanSpeed.type = "button";
-    increaseFanSpeed.innerHTML = "ch+";
+    increaseFanSpeed.innerHTML = "sp+";
     increaseFanSpeed.addEventListener("click", () => {
       if (this._airConditioning.isEnabledStatus === true) {
         this._airConditioning.currentFanSpeed = this._airConditioning.increaseFanSpeed();
