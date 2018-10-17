@@ -51,10 +51,6 @@
   .addDeviceBtn:active {
     opacity: 1; }
 
-.delete_device-btn {
-  width: 14.5rem;
-  background: red; }
-
 .tv {
   margin-top: 5rem;
   border: 2px solid black;

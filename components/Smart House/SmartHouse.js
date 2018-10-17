@@ -43,13 +43,10 @@ export class SmartHouse {
     }
   }
   deleteDeviceByName(name) {
-    let confirmQuestion = confirm(
-      "Are you sure that you want to delete this device?"
-    );
-    if (this._devices.has(name) && confirmQuestion === true) {
+    if (this._devices.has(name)) {
       this._devices.delete(name);
     } else {
-      throw new Error(`There is no such device in the list`);
+      throw new Error(alert(`There is no such device in the list`));
     }
   }
   deleteAllDevices() {

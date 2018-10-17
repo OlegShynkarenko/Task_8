@@ -7,11 +7,7 @@ import { Tv } from "../components/Tv/Tv";
 import { Light } from "../components/Light/Light";
 import "./index.scss";
 
-const house = new SmartHouse(
-  "My Smart House",
-  "NY, 5th AV",
-  "Oleg Shynkarenko"
-);
+const house = new SmartHouse("my house", "NY, 5th AV", "Oleg Shynkarenko");
 house.registerDevice(Tv);
 house.registerDevice(Light);
 house.registerDevice(AirConditioning);
