@@ -420,7 +420,7 @@
         const _ = document.createElement("button");
         (_.className = "decrease_channel button"),
           (_.type = "button"),
-          (_.innerHTML = "ch-"),
+          (_.innerHTML = "sp-"),
           _.addEventListener("click", () => {
             !0 === this._airConditioning.isEnabledStatus &&
               ((this._airConditioning.currentFanSpeed = this._airConditioning.decreaseFanSpeed()),
@@ -431,7 +431,7 @@
         const p = document.createElement("button");
         (p.className = "decrease_channel button"),
           (p.type = "button"),
-          (p.innerHTML = "ch+"),
+          (p.innerHTML = "sp+"),
           p.addEventListener("click", () => {
             !0 === this._airConditioning.isEnabledStatus &&
               ((this._airConditioning.currentFanSpeed = this._airConditioning.increaseFanSpeed()),
@@ -508,8 +508,9 @@
         this._devices.set(e._name, e);
       }
       deleteDeviceByName(e) {
-        if (!this._devices.has(e))
-          throw new Error(alert("There is no such device in the list"));
+        let t = confirm("Are you shure that you want to delete this device?");
+        if (!this._devices.has(e) || !0 !== t)
+          throw new Error("There is no such device in the list");
         this._devices.delete(e);
       }
       deleteAllDevices() {
