@@ -291,7 +291,7 @@
       }
     }
     class c extends r {
-      constructor(e, t) {
+      constructor(e) {
         super(e),
           (this._name = e),
           (this._mode = ["COOL", "HEAT", "DRY", "FAN"]),
@@ -508,7 +508,7 @@
         this._devices.set(e._name, e);
       }
       deleteDeviceByName(e) {
-        let t = confirm("Are you shure that you want to delete this device?");
+        let t = confirm("Are you sure that you want to delete this device?");
         if (!this._devices.has(e) || !0 !== t)
           throw new Error("There is no such device in the list");
         this._devices.delete(e);
@@ -522,7 +522,7 @@
       showDeviceByName(e) {
         return this._devices.get(e);
       }
-    }("my house", "NY, 5th AV", "Oleg Shynkarenko");
+    }("My Smart House", "NY, 5th AV", "Oleg Shynkarenko");
     u.registerDevice(i),
       u.registerDevice(a),
       u.registerDevice(c),
