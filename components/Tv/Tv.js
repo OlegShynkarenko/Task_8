@@ -188,13 +188,11 @@ export class RenderTV {
     });
 
     const deleteDeviceButton = document.createElement("button");
-    deleteDeviceButton.className = "delete_device";
+    deleteDeviceButton.className = "delete_device-btn button";
     deleteDeviceButton.innerHTML = "Delete Device";
     deleteDeviceButton.addEventListener("click", () => {
       this.SmartHouse.deleteDeviceByName(this._tv._name);
-      /*const root = document.getElementById('root');
-      const targetElem = document.querySelector('.tv');
-      root.removeChild(targetElem);*/
+      tvContainer.remove();
     });
 
     switchState();
@@ -219,7 +217,7 @@ export class RenderTV {
     tvControlsContainer.appendChild(tvChannelControls);
 
     tvContainer.appendChild(tvControlsContainer);
-    /*tvContainer.appendChild(deleteDeviceButton);*/
+    tvContainer.appendChild(deleteDeviceButton);
 
     this._rootElement.appendChild(tvContainer);
   }
