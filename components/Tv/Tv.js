@@ -191,8 +191,12 @@ export class RenderTV {
     deleteDeviceButton.className = "delete_device-btn button";
     deleteDeviceButton.innerHTML = "Delete Device";
     deleteDeviceButton.addEventListener("click", () => {
-      this.SmartHouse.deleteDeviceByName(this._tv._name);
-      tvContainer.remove();
+      let confirmQuestion = confirm(
+        "Are you sure that you want to delete this device?"
+      );
+      if (confirmQuestion === true) {
+        this.SmartHouse.deleteDeviceByName(this._tv._name);
+      }
     });
 
     switchState();

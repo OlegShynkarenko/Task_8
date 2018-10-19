@@ -207,8 +207,12 @@ export class RenderAC {
     deleteDeviceButton.className = "delete_device-btn button";
     deleteDeviceButton.innerHTML = "Delete Device";
     deleteDeviceButton.addEventListener("click", () => {
-      this.smartHouse.deleteDeviceByName(this._airConditioning._name);
-      airCondContainer.remove();
+      let confirmQuestion = confirm(
+        "Are you sure that you want to delete this device?"
+      );
+      if (confirmQuestion === true) {
+        this.smartHouse.deleteDeviceByName(this._airConditioning._name);
+      }
     });
 
     switchState();

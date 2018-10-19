@@ -18,3 +18,5 @@ house.registerDevice(AirConditioning);
 
 const smartHouseView = new SmartHouseRender(house);
 smartHouseView.render();
+
+window.house = house;

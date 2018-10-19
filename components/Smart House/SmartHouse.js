@@ -9,6 +9,7 @@ export class SmartHouse {
     this._owner = owner;
     this._devices = new Map();
     this._register = new Map();
+    this._devicesChangesListener = null;
   }
 
   get name() {
@@ -25,8 +26,11 @@ export class SmartHouse {
     return this._register;
   }
 
+  set devicesChangesListener(fn) {
+    this._devicesChangesListener = fn;
+  }
+
   registerDevice(device) {
-    // Get Class like Light / Tv / AirConditioning
     const name = device.getDeviceName();
     this._register.set(name, device);
   }
@@ -34,6 +38,10 @@ export class SmartHouse {
   addNewDevice(device) {
     if (this._devices.has(device._name) === false && device._name) {
       this._devices.set(device._name, device);
+
+      if (this._devicesChangesListener) {
+        this._devicesChangesListener(this._devices);
+      }
     } else {
       throw new Error(
         alert(
@@ -42,20 +50,23 @@ export class SmartHouse {
       );
     }
   }
+
   deleteDeviceByName(name) {
-    let confirmQuestion = confirm(
-      "Are you sure that you want to delete this device?"
-    );
-    if (this._devices.has(name) && confirmQuestion === true) {
+    if (this._devices.has(name)) {
       this._devices.delete(name);
+
+      if (this._devicesChangesListener) {
+        this._devicesChangesListener(this._devices);
+      }
     } else {
       throw new Error(`There is no such device in the list`);
     }
   }
+
   deleteAllDevices() {
     this._devices.clear();
   }
-  showAllDevices() {
+  getAllDevices() {
     return this._devices;
   }
   showDeviceByName(name) {
@@ -64,13 +75,45 @@ export class SmartHouse {
 }
 
 export class SmartHouseRender {
-  constructor(smartHouse) {
+  constructor(smartHouse, tv) {
     this.smartHouse = smartHouse;
     this.root = document.getElementById("root");
+    this._tv = tv;
+
+    this.smartHouse.devicesChangesListener = devices => {
+      this._renderDevices(devices);
+    };
+  }
+
+  _addDevice(deviceType, deviceName) {
+    let newDevice;
+    switch (deviceType) {
+      case "tv-set":
+        newDevice = new Tv(deviceName);
+        this.smartHouse.addNewDevice(newDevice);
+        break;
+
+      case "light":
+        newDevice = new Light(deviceName);
+        this.smartHouse.addNewDevice(newDevice);
+        break;
+
+      case "air_conditioning":
+        newDevice = new AirConditioning(deviceName);
+        this.smartHouse.addNewDevice(newDevice);
+        break;
+    }
+    this._renderDevices();
   }
 
   render() {
+    this._renderSelect();
+    this._renderDevices();
+  }
+
+  _renderSelect() {
     const registerDevice = document.createElement("div");
+    registerDevice.className = "addNewDeviceContainer";
 
     const select = document.createElement("select");
     select.setAttribute("id", "select");
@@ -119,37 +162,46 @@ export class SmartHouseRender {
       const deviceName = inputField.value;
       inputField.value = "";
 
-      switch (currentOption) {
-        case "tv-set":
-          const newTV = new Tv(deviceName);
-          this.smartHouse.addNewDevice(newTV);
-          const viewTV = new RenderTV(
-            newTV,
-            document.getElementById("root"),
-            this.smartHouse
-          );
-          viewTV.render();
-          break;
-
-        case "light":
-          const newLight = new Light(deviceName);
-          this.smartHouse.addNewDevice(newLight);
-          break;
-
-        case "air_conditioning":
-          const newAirConditioning = new AirConditioning(deviceName);
-          this.smartHouse.addNewDevice(newAirConditioning);
-          const viewAC = new RenderAC(
-            newAirConditioning,
-            document.getElementById("root"),
-            this.smartHouse
-          );
-          viewAC.render();
-          break;
-      }
+      this._addDevice(currentOption, deviceName);
     });
-
     registerDevice.appendChild(select);
     this.root.appendChild(registerDevice);
+  }
+
+  _renderDevices() {
+    let devicesList = this.root.querySelector(".devicesList");
+
+    if (devicesList) {
+      devicesList.innerHTML = "";
+    } else {
+      devicesList = document.createElement("div");
+      devicesList.className = "devicesList";
+      this.root.appendChild(devicesList);
+    }
+
+    const devices = this.smartHouse.getAllDevices();
+
+    devices.forEach(device => {
+      if (device instanceof Tv) {
+        const viewTV = new RenderTV(
+          device,
+          document.querySelector(".devicesList"),
+          this.smartHouse
+        );
+        viewTV.render();
+      }
+
+      if (device instanceof Light) {
+      }
+
+      if (device instanceof AirConditioning) {
+        const viewAC = new RenderAC(
+          device,
+          document.querySelector(".devicesList"),
+          this.smartHouse
+        );
+        viewAC.render();
+      }
+    });
   }
 }
