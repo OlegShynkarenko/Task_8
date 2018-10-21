@@ -19,28 +19,20 @@ export class Light extends Device {
     return "Light Device";
   }
 
-  get currentColorTemperature() {
-    return this._currentColorTemperature;
+  getHumanizedName() {
+    return "Light Device";
   }
-  get minColorTemperature() {
-    return this._minColorTemperature;
-  }
-  get maxColorTemperature() {
-    return this._maxColorTemperature;
-  }
-  increaseColorTemperature() {
-    if (this._currentColorTemperature < this._maxColorTemperature) {
-      this._currentColorTemperature++;
-    }
-  }
-  decreaseColorTemperature() {
-    if (this._currentColorTemperature > this._minColorTemperature) {
-      this._currentColorTemperature--;
-    }
-  }
+
   get currentBrightness() {
     return this._currentBrightness;
   }
+
+  set currentBrightness(val) {
+    if (val > this._minBrightness && val < this._maxBrightness) {
+      this._currentBrightness = val;
+    }
+  }
+
   increaseBrightness() {
     if (this._currentBrightness < this._maxBrightness) {
       this._currentBrightness++;
@@ -49,6 +41,27 @@ export class Light extends Device {
   decreaseBrightness() {
     if (this._currentBrightness > this._minBrightness) {
       this._currentBrightness--;
+    }
+  }
+
+  get currentColorTemperature() {
+    return this._currentColorTemperature;
+  }
+
+  set currentColorTemperature(val) {
+    if (val > this._minColorTemperature && val < this._maxColorTemperature) {
+      this.currentColorTemperature = val;
+    }
+  }
+
+  increaseColorTemperature() {
+    if (this._currentColorTemperature < this._maxColorTemperature) {
+      this._currentColorTemperature += 100;
+    }
+  }
+  decreaseColorTemperature() {
+    if (this._currentColorTemperature > this._minColorTemperature) {
+      this._currentColorTemperature -= 100;
     }
   }
   setNightMode() {

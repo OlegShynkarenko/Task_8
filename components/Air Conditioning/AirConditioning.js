@@ -83,7 +83,7 @@ export class AirConditioning extends Device {
   }
 }
 
-export class RenderAC {
+/*export class RenderAC {
   constructor(airConditioning, rootElement, smartHouse) {
     this._airConditioning = airConditioning;
     this._rootElement = rootElement;
@@ -241,4 +241,4 @@ export class RenderAC {
 
     this._rootElement.appendChild(airCondContainer);
   }
-}
+}*/
