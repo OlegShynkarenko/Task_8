@@ -5,6 +5,8 @@ export class Tv extends Device {
     super(name);
     this._name = name;
     this._sources = ["TV antenna", "HDMI", "USB", "PC"];
+    this._currentSource = this._sources[0];
+    this._currentSourceIndex = 1;
     this._currentChannel = 1;
     this._minChannelValue = 1;
     this._maxChannelValue = 100;
@@ -25,18 +27,27 @@ export class Tv extends Device {
     return "TV-Set";
   }
 
-  get source() {
-    return this._sources;
-  }
-
   get currentSource() {
     return this._currentSource;
   }
-  setSource(source) {
+
+  set currentSource(source) {
     if (this._sources.indexOf(source) !== -1) {
       this._currentSource = source;
     }
   }
+
+  switchSource() {
+    if (this._currentSourceIndex < this._sources.length) {
+      this._currentSource = this._sources[this._currentSourceIndex];
+      this._currentSourceIndex++;
+    } else if (this._currentSourceIndex >= this._sources.length - 1) {
+      this._currentSourceIndex = 0;
+      this._currentSource = this._sources[this._currentSourceIndex];
+      this._currentSourceIndex++;
+    }
+  }
+
   get currentChannel() {
     return this._currentChannel;
   }
@@ -79,7 +90,7 @@ export class Tv extends Device {
   }
 }
 
-export class RenderTV {
+/*export class RenderTV {
   constructor(tv, rootElement, SmartHouse) {
     this._tv = tv;
     this._rootElement = rootElement;
@@ -120,8 +131,8 @@ export class RenderTV {
     setDeviceOn.type = "button";
     setDeviceOn.innerHTML = "ON";
     setDeviceOn.addEventListener("click", () => {
-      this._tv.setDeviceOn();
-      switchState();
+        this._tv.setDeviceOn();
+        switchState();
     });
 
     const setDeviceOff = document.createElement("button");
@@ -191,8 +202,12 @@ export class RenderTV {
     deleteDeviceButton.className = "delete_device-btn button";
     deleteDeviceButton.innerHTML = "Delete Device";
     deleteDeviceButton.addEventListener("click", () => {
-      this.SmartHouse.deleteDeviceByName(this._tv._name);
-      tvContainer.remove();
+      let confirmQuestion = confirm(
+        "Are you sure that you want to delete this device?"
+      );
+      if (confirmQuestion === true) {
+        this.SmartHouse.deleteDeviceByName(this._tv._name);
+      }
     });
 
     switchState();
@@ -220,5 +235,6 @@ export class RenderTV {
     tvContainer.appendChild(deleteDeviceButton);
 
     this._rootElement.appendChild(tvContainer);
+    //this._rootElement.appendChild(tvContainer);
   }
-}
+}*/

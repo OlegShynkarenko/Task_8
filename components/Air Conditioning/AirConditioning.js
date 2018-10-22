@@ -83,7 +83,7 @@ export class AirConditioning extends Device {
   }
 }
 
-export class RenderAC {
+/*export class RenderAC {
   constructor(airConditioning, rootElement, smartHouse) {
     this._airConditioning = airConditioning;
     this._rootElement = rootElement;
@@ -207,8 +207,12 @@ export class RenderAC {
     deleteDeviceButton.className = "delete_device-btn button";
     deleteDeviceButton.innerHTML = "Delete Device";
     deleteDeviceButton.addEventListener("click", () => {
-      this.smartHouse.deleteDeviceByName(this._airConditioning._name);
-      airCondContainer.remove();
+      let confirmQuestion = confirm(
+        "Are you sure that you want to delete this device?"
+      );
+      if (confirmQuestion === true) {
+        this.smartHouse.deleteDeviceByName(this._airConditioning._name);
+      }
     });
 
     switchState();
@@ -237,4 +241,4 @@ export class RenderAC {
 
     this._rootElement.appendChild(airCondContainer);
   }
-}
+}*/
